@@ -1,0 +1,6 @@
+Transcrire prends du temps :
+
+Solution => Speed up la vidéo 
+	Test avec une vidéo en anglais de 3 min: vitesse *1 : 1 min 08
+						 vitesse *3 : 45 sec
+						 Pas de défaut de transcription apparent

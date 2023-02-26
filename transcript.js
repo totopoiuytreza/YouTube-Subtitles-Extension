@@ -1,6 +1,6 @@
 const whisper = require('whisper');
 
-model = whisper.load_model("medium");
+model = whisper.load_model("small");
 
 audio = whisper.load_audio("audio.mp3");
 audio = whisper.pad_or_trim(audio);
