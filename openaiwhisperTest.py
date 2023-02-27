@@ -1,7 +1,11 @@
 import whisper
+import torch
+import os
+from youtube import Youtube
 
-model = whisper.load_model("small")
-
+devices = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") 
+model = whisper.load_model("small", device=devices)
+yt = Youtube("https://www.youtube.com/watch?v=nR36TaQ8duQ")
 options = {"fp16": False, "task": "translate"}
-result = model.transcribe("testSpedUp.wav", **options)
-print(result["text"])
+result = model.transcribe(os.path.join('data','audio.mp3'), **options)
+print(yt.whisper_result_to_text(result))
