@@ -19,7 +19,8 @@ class Youtube:
         return self.yt.length
 
     def get_audio_from_video(self):
-        return self.yt.streams.filter(only_audio=True).first().download(filename=os.path.join("data", "audio.mp3"))
+        video = self.yt.streams.filter(only_audio=True).first()
+        return video.download(filename=os.path.join("data", "audio.wav"))
     
     def whisper_result_to_text(self, result):
         text = []
