@@ -12,7 +12,7 @@
       "128": "/icons/icon128.png"
     },
     "background": {
-        "service_worker": "src/background/background.js"
+        "service_worker": "src/background.js"
         },
     "content_scripts": [
       {
@@ -20,12 +20,12 @@
           "https://www.youtube.com/*"
         ],
         "js": [
-          "src/content_script/content_script.js"
+          "src/content_script.js"
         ]
       }
     ],
     "options_ui": {
-      "page": "src/popup/popup.html",
+      "page": "src/popup.html",
       "open_in_tab": true
     }
   }
