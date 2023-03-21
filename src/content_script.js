@@ -4,27 +4,27 @@
     
 
     chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
-        const { type, url, tabId } = obj;
+        const { type, videoId, tabId } = obj;
         if(type === 'NEW_URL') {
-            currentVideo = url;
+            currentVideo = videoId;
             loadNewVideo();
         }
     });
 
     const loadNewVideo = () => {
-        fetch('/transcribe', {
+        fetch('http://127.0.0.1:5000/transcribe', {
             method: 'POST',
+            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                url: currentVideo
+                video_id: currentVideo
             })
         })
         .then(response => response.text())
-        .then(text => {
-            // Do something with the transcribed text
-            console.log(text);
+        .then(data => {
+            console.log(data);
         })
         .catch(error => {
             console.error(error);

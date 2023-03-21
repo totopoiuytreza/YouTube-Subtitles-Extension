@@ -8,7 +8,6 @@
 /dataSources.local.xml
 
 # data folder
-/data/
-
+/src/data/
 # test folder
 /test/
