@@ -21,7 +21,7 @@ Python needs to be version > 3.7
 
 
 RUN THE FLASK SERVER :
-    - Be on the data repository : cd src
+    - Be on the data repository : cd src/backend
     - run command : set FLASK_APP=app.py
     - run command : flask run
 
