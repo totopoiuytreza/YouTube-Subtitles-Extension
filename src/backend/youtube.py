@@ -21,6 +21,21 @@ class Youtube:
     def get_audio_from_video(self):
         video = self.yt.streams.filter(only_audio=True).first()
         return video.download(filename=os.path.join("data", "audio.wav"))
+
+    def separate_video_into_segments(self, segment_length):
+        # Get the duration of the video
+        duration = self.get_video_duration()
+
+        # Get the number of segments
+        num_segments = int(duration / segment_length) + (1 if duration % segment_length > 0 else 0)
+
+        # Get the start and end times of each segment
+        segments = []
+        for i in range(num_segments):
+            segments.append((i*segment_length, (i+1)*segment_length))
+        
+
+
     
     def whisper_result_to_text(self, result):
         text = []
