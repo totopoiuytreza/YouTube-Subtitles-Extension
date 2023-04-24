@@ -9,7 +9,11 @@
 
 # data folder
 /src/data/
+
 # test folder
 /test/
 /testing.py
+
+# pycache folder
+/src/__pycache__/
 
