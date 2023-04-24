@@ -6,9 +6,11 @@ class Youtube:
 
     def __init__(self, url):
         self.url = url
+        self.number_of_segment = 0
         if self.check_valid_url(self.url):
             self.yt = YouTube(self.url)
-            self.number_of_segment = self.separate_video_into_segments(10)
+            self.get_audio_and_segments(30)
+            self.start_time = 0
         else:
             raise Exception("Invalid URL")
         
@@ -32,9 +34,8 @@ class Youtube:
         
         for i, segment in enumerate(segments):
             segment.export(os.path.join("../data", f"segment{i+1}.wav"), format="wav")
-        #Return the number of segments
-        return i+1
-    
+        self.number_of_segment = i+1
+
     def get_audio_and_segments(self, segment_length):
         self.get_audio_from_video()
         self.separate_video_into_segments(segment_length)
@@ -45,20 +46,25 @@ class Youtube:
 
     def whisper_result_to_text(self, result):
         text = []
+        timestamp_end = 0
         for i,s in enumerate(result['segments']):
             text.append(str(i+1))
-
             time_start = s['start']
+            if self.start_time !=0:
+                time_start = self.start_time + s['start']
             hours, minutes, seconds = int(time_start/3600), (time_start/60) % 60, (time_start) % 60
             timestamp_start = "%02d:%02d:%06.3f" % (hours, minutes, seconds)
             timestamp_start = timestamp_start.replace('.',',')     
             time_end = s['end']
+            if self.start_time !=0:
+                time_end = self.start_time + s['end']
             hours, minutes, seconds = int(time_end/3600), (time_end/60) % 60, (time_end) % 60
             timestamp_end = "%02d:%02d:%06.3f" % (hours, minutes, seconds)
             timestamp_end = timestamp_end.replace('.',',')        
             text.append(timestamp_start + " --> " + timestamp_end)
 
             text.append(s['text'].strip() + "\n")
+        self.start_time = time_end
             
         return "\n".join(text)
     

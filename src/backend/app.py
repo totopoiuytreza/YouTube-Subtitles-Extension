@@ -17,9 +17,9 @@ def transcribe():
     yt = Youtube(youtube_url)
     text = []
     
-    number_of_segment = yt.get_number_of_segments()
+    number_of_segment = yt.get_number_of_segment()
     for i in range(number_of_segment):
-        result = model.transcribe(os.path.join('./data',f"segment{i+1}.wav"), **options)
+        result = model.transcribe(os.path.join('../data',f"segment{i+1}.wav"), **options)
         segment_text = yt.whisper_result_to_text(result)
         text.append(segment_text)
         print(segment_text)
