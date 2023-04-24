@@ -15,5 +15,5 @@
 /testing.py
 
 # pycache folder
-/src/__pycache__/
+/src/backend/__pycache__/
 
