@@ -1,5 +1,6 @@
 from pytube import YouTube
 import re, os
+from pydub import AudioSegment
 
 class Youtube:
 
@@ -7,7 +8,7 @@ class Youtube:
         self.url = url
         if self.check_valid_url(self.url):
             self.yt = YouTube(self.url)
-            self.get_audio_from_video()
+            self.number_of_segment = self.separate_video_into_segments(10)
         else:
             raise Exception("Invalid URL")
         
@@ -17,26 +18,31 @@ class Youtube:
 
     def get_video_duration(self):
         return self.yt.length
-
+    
     def get_audio_from_video(self):
         video = self.yt.streams.filter(only_audio=True).first()
-        return video.download(filename=os.path.join("data", "audio.wav"))
-
+        number_of_segment = video.download(filename=os.path.join("../data", "audio.wav"))
+        return number_of_segment
+    
     def separate_video_into_segments(self, segment_length):
-        # Get the duration of the video
-        duration = self.get_video_duration()
-
-        # Get the number of segments
-        num_segments = int(duration / segment_length) + (1 if duration % segment_length > 0 else 0)
-
-        # Get the start and end times of each segment
-        segments = []
-        for i in range(num_segments):
-            segments.append((i*segment_length, (i+1)*segment_length))
+    
+        segment_length = segment_length * 1000
+        audio = AudioSegment.from_file(os.path.join("../data", "audio.wav"))
+        segments = audio[::segment_length]
+        
+        for i, segment in enumerate(segments):
+            segment.export(os.path.join("../data", f"segment{i+1}.wav"), format="wav")
+        #Return the number of segments
+        return i+1
+    
+    def get_audio_and_segments(self, segment_length):
+        self.get_audio_from_video()
+        self.separate_video_into_segments(segment_length)
+    
+    def get_number_of_segment(self):
+        return self.number_of_segment
         
 
-
-    
     def whisper_result_to_text(self, result):
         text = []
         for i,s in enumerate(result['segments']):

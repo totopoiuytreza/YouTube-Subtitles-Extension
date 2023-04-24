@@ -12,7 +12,7 @@
       "128": "/icons/icon128.png"
     },
     "background": {
-        "service_worker": "src/background.js"
+        "service_worker": "src/frontend/background.js"
         },
     "content_scripts": [
       {
