@@ -46,7 +46,6 @@ class Youtube:
 
     def whisper_result_to_text(self, result):
         text = []
-        timestamp_end = 0
         for i,s in enumerate(result['segments']):
             text.append(str(i+1))
             time_start = s['start']

@@ -28,3 +28,7 @@ def transcribe():
         print(segment_text)
     
     return jsonify({'text': text})
+
+
+if __name__ == '__main__':
+    socketio.run(app)

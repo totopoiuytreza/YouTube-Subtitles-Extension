@@ -1,17 +1,26 @@
 (() => {
     let youtubeLeftControls, youtubePlayer;
     let currentVideo = null;
-    
+    let port;
 
-    chrome.runtime.onMessage.addListener((obj, sender, sendResponse) => {
-        const { type, videoId, tabId } = obj;
-        if(type === 'NEW_URL') {
-            currentVideo = videoId;
+    port = chrome.runtime.connect({name: "websocket"});
+        port.onMessage.addListener((msg) => {
+            console.log("RECEIVING")
+            if (msg.type === 'transcribe') {
+                console.log(msg.data.text);
+            }
+        });
+        
+    chrome.runtime.onMessage.addListener((msg) => {
+        if (msg.type === 'NEW_URL') {
+            currentVideo = msg.videoId;
             loadNewVideo();
         }
     });
 
     const loadNewVideo = () => {
+        // Connect to the backend server using a named port
+        
         fetch('http://127.0.0.1:5000/transcribe', {
             method: 'POST',
             mode: 'cors',
@@ -29,5 +38,7 @@
         .catch(error => {
             console.error(error);
         });
+        
+
     }
 })();
