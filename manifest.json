@@ -20,7 +20,8 @@
           "https://www.youtube.com/*"
         ],
         "js": [
-          "src/frontend/content_script.js"
+          "src/frontend/content_script.js",
+          "src/frontend/socket.io.js"
         ]
       }
     ],

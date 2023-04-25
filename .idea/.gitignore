@@ -17,3 +17,5 @@
 # pycache folder
 /src/backend/__pycache__/
 
+#node_modules folder
+/src/node_modules/

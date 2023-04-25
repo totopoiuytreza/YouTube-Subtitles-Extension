@@ -1,22 +1,24 @@
 (() => {
+    
     let youtubeLeftControls, youtubePlayer;
     let currentVideo = null;
-    let port;
-
-    port = chrome.runtime.connect({name: "websocket"});
-        port.onMessage.addListener((msg) => {
-            console.log("RECEIVING")
-            if (msg.type === 'transcribe') {
-                console.log(msg.data.text);
-            }
-        });
-        
+    
     chrome.runtime.onMessage.addListener((msg) => {
         if (msg.type === 'NEW_URL') {
             currentVideo = msg.videoId;
             loadNewVideo();
         }
     });
+    var socket = io.connect('http://127.0.0.1:5000');
+
+    socket.on('connect', function() {
+        console.log('connected');
+    });
+
+    socket.on('transcribe', function(msg) {
+        console.log(msg.text);
+    });
+
 
     const loadNewVideo = () => {
         // Connect to the backend server using a named port
