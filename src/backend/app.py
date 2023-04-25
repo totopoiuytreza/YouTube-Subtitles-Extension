@@ -25,7 +25,6 @@ def transcribe():
         segment_text = yt.whisper_result_to_text(result)
         text.append(segment_text)
         socketio.emit('transcribe', {'text': segment_text})
-        print(segment_text)
     
     return jsonify({'text': text})
 
