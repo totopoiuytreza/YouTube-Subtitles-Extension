@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "YoutubeSubtitles",
     "description": "Adds subtitles to youtube videos",
-    "permissions": ["tabs", "storage", "activeTab"],
+    "permissions": ["tabs", "storage", "activeTab", "webNavigation"],
     "version": "1.0",
     "author": "totopoiuytreza, Alexis0720, chopeurx, Clutchboyyyy",
     "icons": {

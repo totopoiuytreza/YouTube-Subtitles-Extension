@@ -11,19 +11,3 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
 })
 
 
-import WebSocket from 'ws';
-const ws = new WebSocket('ws://127.0.0.1:5000');
-
-ws.addEventListener('open', (event) => {
-    console.log('WebSocket connection opened');
-  });
-  
-ws.addEventListener('message', (event) => {
-    const data = JSON.parse(event.data);
-    if (data.type === 'transcribe') {
-      console.log('Received transcribe event from server:', data.text);
-    } else {
-      console.log('Received message from server:', data.text);
-    }
-  });
-

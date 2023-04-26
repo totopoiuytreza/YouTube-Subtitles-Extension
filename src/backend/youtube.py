@@ -6,6 +6,7 @@ class Youtube:
 
     def __init__(self, url):
         self.url = url
+        self.video_id = url.split("=")[1]
         self.number_of_segment = 0
         if self.check_valid_url(self.url):
             self.yt = YouTube(self.url)
@@ -18,6 +19,9 @@ class Youtube:
     def check_valid_url(self, url):
         return re.search(r'((http(s)?:\/\/)?)(www\.)?((youtube\.com\/)|(youtu.be\/))[\S]+', url)
 
+    def get_video_id(self):
+        return self.video_id
+        
     def get_video_duration(self):
         return self.yt.length
     
