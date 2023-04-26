@@ -4,3 +4,9 @@ Solution => Speed up la vidéo
 	Test avec une vidéo en anglais de 3 min: vitesse *1 : 1 min 08
 						 vitesse *3 : 45 sec
 						 Pas de défaut de transcription apparent
+
+
+Websocket :
+	- Pas possible d'utiliser des requetes HTTP GET POST pour l'envoie continue du backend vers frontend
+	- chrome.sockets deprecated
+	- besoin d'un serveur pour faire marcher Websocket
