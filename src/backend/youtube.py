@@ -26,9 +26,8 @@ class Youtube:
         return self.yt.length
     
     def get_audio_from_video(self):
-        video = self.yt.streams.filter(only_audio=True).first()
-        number_of_segment = video.download(filename=os.path.join("../data", "audio.wav"))
-        return number_of_segment
+
+        return self.yt.streams.filter(only_audio=True).first().download(filename=os.path.join("../data", "audio.wav"))
     
     def separate_video_into_segments(self, segment_length):
     
