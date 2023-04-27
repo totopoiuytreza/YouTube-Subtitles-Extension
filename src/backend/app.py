@@ -16,8 +16,11 @@ transcription = []
 def transcribe():
     global transcription
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
+    print(youtube_url)
     print("downloading...")
     yt = Youtube(youtube_url)
+    print("downloaded")
+    
     transcription = []
     number_of_segment = yt.get_number_of_segment()
     for i in range(number_of_segment):
