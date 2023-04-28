@@ -8,11 +8,10 @@ chrome.tabs.onUpdated.addListener((tabId, tab) => {
             videoId: urlParameters.get('v'),
         })
     }
-    else{
-        chrome.tabs.sendMessage(tabId, {
-            type : 'NOT_NEW_URL'
-        })
-    }
 })
 
+  
+
+  
+  
 

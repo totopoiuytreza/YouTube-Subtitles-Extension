@@ -8,13 +8,13 @@ app = Flask(__name__)
 CORS(app)
 devices = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = load_model("small", device=devices)
-options = {"fp16": False, "task": "translate"}
 current_youtube = None
 transcription = []
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
     global transcription
+    options = {"fp16": False, "task": "translate", "language": request.json['language']}
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
     print(youtube_url)
     print("downloading...")
@@ -36,5 +36,9 @@ def transcribe():
 def checktranscribe():
     global transcription
     return jsonify({'text': transcription})
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
 
