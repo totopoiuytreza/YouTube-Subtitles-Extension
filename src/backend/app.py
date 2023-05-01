@@ -24,7 +24,7 @@ def transcribe():
     transcription = []
     number_of_segment = yt.get_number_of_segment()
     for i in range(number_of_segment):
-        result = model.transcribe(os.path.join('../data',f"segment{i+1}.wav"), **options)
+        result = model.transcribe(os.path.join('src/data',f"segment{i+1}.wav"), **options)
         segment_text = yt.whisper_result_to_text(result)
         transcription.append(segment_text)
         print(segment_text)

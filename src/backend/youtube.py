@@ -26,17 +26,18 @@ class Youtube:
         return self.yt.length
     
     def get_audio_from_video(self):
-
-        return self.yt.streams.filter(only_audio=True).first().download(filename=os.path.join("../data", "audio.wav"))
+        video = self.yt.streams.filter(only_audio=True).first()
+        video = video.download(filename=os.path.join("src/data", "audio.wav"))
+        return video
     
     def separate_video_into_segments(self, segment_length):
     
         segment_length = segment_length * 1000
-        audio = AudioSegment.from_file(os.path.join("../data", "audio.wav"))
+        audio = AudioSegment.from_file(os.path.join("src/data", "audio.wav"))
         segments = audio[::segment_length]
         
         for i, segment in enumerate(segments):
-            segment.export(os.path.join("../data", f"segment{i+1}.wav"), format="wav")
+            segment.export(os.path.join("src/data", f"segment{i+1}.wav"), format="wav")
         self.number_of_segment = i+1
 
     def get_audio_and_segments(self, segment_length):
