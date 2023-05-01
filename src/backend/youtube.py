@@ -50,15 +50,16 @@ class Youtube:
 
     def whisper_result_to_text(self, result):
         text = []
+        
         for i,s in enumerate(result['segments']):
-            text.append(str(i+1))
             time_start = s['start']
+            time_end = s['end']
+            text.append(str(i+1))
             if self.start_time !=0:
                 time_start = self.start_time + s['start']
             hours, minutes, seconds = int(time_start/3600), (time_start/60) % 60, (time_start) % 60
             timestamp_start = "%02d:%02d:%06.3f" % (hours, minutes, seconds)
             timestamp_start = timestamp_start.replace('.',',')     
-            time_end = s['end']
             if self.start_time !=0:
                 time_end = self.start_time + s['end']
             hours, minutes, seconds = int(time_end/3600), (time_end/60) % 60, (time_end) % 60
