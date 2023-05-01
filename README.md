@@ -9,7 +9,11 @@ Install FFMPEG : - install Chocolatey : On cmd administration permission :
 
 Verify if packages are installed (Test on cmd or powershell): - python -V - ffmpeg - whisper
 
-Some must have packages: - pip install flask_socketio - pip install pytube
+Some must have packages: 
+- pip install flask 
+- pip install flask_cors 
+- pip install pytube
+- pip install pydub
 
 Warning, you need to verify (if you have multiple python), if whisper is installed in the python path you are currently using
 Python needs to be version > 3.7
