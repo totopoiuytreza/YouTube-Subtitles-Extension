@@ -8,14 +8,12 @@
 /dataSources.local.xml
 
 # data folder
-/src/data/
+../src/data/
 
 # test folder
-/test/
-/testing.py
+../test/
+../testing.py
 
 # pycache folder
-/src/backend/__pycache__/
+../src/backend/__pycache__/
 
-#node_modules folder
-/src/node_modules/

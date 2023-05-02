@@ -15,6 +15,7 @@
                 // Abort all previous requests
                 console.log("Aborting previous requests")
                 if (transcribeController != null){
+                    clearInterval(currentInterval);
                     transcribeController.abort();
                 }
             }
