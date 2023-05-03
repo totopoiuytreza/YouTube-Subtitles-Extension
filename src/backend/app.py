@@ -28,7 +28,7 @@ def transcribe():
         segment_text = yt.whisper_result_to_text(result)
         transcription.append(segment_text)
         print(segment_text)
-    return jsonify({'text': transcription})
+    return jsonify({'text': segment_text})
     
 
 
