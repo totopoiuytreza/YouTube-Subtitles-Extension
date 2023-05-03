@@ -38,6 +38,20 @@ def checktranscribe():
     return jsonify({'text': transcription})
 
 
+@app.route('/transcribe_all', methods=['GET'])
+def transcribeAll():
+    options = {"fp16": False, "task": "translate", "language": request.json['language']}
+    youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
+    print(youtube_url)
+    print("downloading...")
+    yt = Youtube(youtube_url)
+    print("downloaded")
+    result = model.transcribe(os.path.join('src/data',f"audio.wav"), **options)
+    text = yt.whisper_result_to_text(result)
+
+    return jsonify({'text': text})
+    
+
 if __name__ == '__main__':
     app.run(debug=True)
 
