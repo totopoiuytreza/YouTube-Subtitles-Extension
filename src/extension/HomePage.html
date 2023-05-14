@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Youtube Transcribe</h1>
+        <h2>Mettez des sous-titres à vos vidéos</h2>
+    </header>
+    
+    <div class="search-bar">
+        <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
+        <button id="searchButton" class="search-button">Rechercher</button>
+    </div>
+
+    <div class="video-container">
+        <video id="myVideo" controls>
+            <source id="videoSource" type="video/mp4">
+            <track id="subtitlesTrack" kind="subtitles" src="/transcribe" srclang="fr" label="Français">
+        </video>
+    </div>
+      
+</body>
+</html>
+
+<script>
+    // Récupérez les éléments HTML nécessaires
+    var searchInput = document.getElementById('searchInput');
+    var searchButton = document.getElementById('searchButton');
+    var videoSource = document.getElementById('videoSource');
+    var subtitlesTrack = document.getElementById('subtitlesTrack');
+
+    // Ajoutez un gestionnaire d'événement au bouton de recherche
+    searchButton.addEventListener('click', function() {
+            // Récupérez la valeur de recherche de l'utilisateur
+            var videoUrl = searchInput.value;
+            
+           
+            var videoId = extractVideoId(videoUrl);
+            
+            // Mettez à jour l'URL de la source vidéo
+            videoSource.src = "https://www.youtube.com/embed/" + videoId;
+
+            // Mettez à jour l'URL du sous-titre
+            var vttUrl = "/subtitles.vtt";
+            subtitlesTrack.src = vttUrl;
+
+            // Rafraîchissez la vidéo pour prendre en compte les changements
+            document.getElementById('myVideo').load();
+        });
+
+        // Fonction pour extraire l'ID de la vidéo à partir de l'URL YouTube
+        function extractVideoId(url) {
+            var videoId = "";
+            var splitUrl = url.split("v=");
+            if (splitUrl.length > 1) {
+                videoId = splitUrl[1];
+            }
+            return videoId;
+        }
+</script>
