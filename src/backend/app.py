@@ -28,14 +28,40 @@ def transcribe():
         segment_text = yt.whisper_result_to_text(result)
         transcription.append(segment_text)
         print(segment_text)
+
+    generate_vtt_file(transcription)  # Generate the VTT file
+
     return jsonify({'text': transcription})
+
     
+def generate_vtt_file(transcription):
+    vtt_content = "WEBVTT\n\n"
+    start_time = 0
+
+    for index, text in enumerate(transcription):
+        end_time = start_time + 5  # Assuming each segment is 5 seconds long
+        vtt_content += f"{index + 1}\n"
+        vtt_content += f"{format_time(start_time)} --> {format_time(end_time)}\n"
+        vtt_content += f"{text}\n\n"
+        start_time = end_time
+
+    with open("subtitles.vtt", "w", encoding="utf-8") as vtt_file:
+        vtt_file.write(vtt_content)
+
+
+def format_time(seconds):
+    minutes = seconds // 60
+    seconds = seconds % 60
+    milliseconds = int((seconds - int(seconds)) * 1000)
+    return f"{int(minutes):02d}:{int(seconds):02d}.{milliseconds:03d}"
+
 
 
 @app.route('/check_transcription', methods=['GET'])
 def checktranscribe():
     global transcription
     return jsonify({'text': transcription})
+
 
 
 if __name__ == '__main__':
