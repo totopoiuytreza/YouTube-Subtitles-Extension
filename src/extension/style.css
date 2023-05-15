@@ -5,12 +5,12 @@ body{
 
 img{
   background: none;
-  width: 14.2vw;
+  width: 14.3vw;
   position: absolute;
   left: 6vw;
   border-radius: 3vw;
   padding: 50px;
-  padding-top: 90px;
+  padding-top: 105px;
 }
 
 header {
