@@ -1,3 +1,10 @@
+body{
+  background-image: url('icons/bg4.jpg');
+  background-size: cover;
+}
+
+
+
 header {
     display: flex;
     flex-direction: column;
@@ -10,11 +17,16 @@ header {
   header h1 {
     font-size: 50px;
     margin-bottom: 10px;
+    margin-top: 5px;
+    font-family: 'Poppins', sans-serif;
+    color:white;
   }
   
   header h2 {
     font-size: 24px;
     margin-top: 0;
+    font-family: 'Poppins', sans-serif;
+    color:white;
   }
   
 
@@ -28,30 +40,73 @@ header {
   
   .search-input {
     width: 15vw;
-    padding: 10px;
-    margin-right: 10px;
+    padding: 11px;
+    margin-right: 9px;
     border-radius: 2vw;
+
   }
   
   .search-button {
-    padding: 10px 20px;
-    background-color: #007bff;
+    padding: 12px 20px;
+    background-color: red;
     color: #fff;
     border: none;
     cursor: pointer;
     border-radius: 2vw;
     width : 8vw;
+    font-size: 15px;
+  }
+
+  .search-button:hover{
+    
+    box-shadow: 1px 1px 4px 2px rgba(255, 255, 255, 0.7);
   }
   
   .video-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    text-align: center;
-  }
-  
-  video {
-    max-width: 100%;
-    height: auto;
-    width: 50vw;
-  }
+    align-items: center;
+    height: 100vh; /* Hauteur de la vidéo sur 100% de la hauteur de la fenêtre */
+    margin-left: 40vw;
+    margin-top: 10vh;
+}
+
+#videoSource {
+    width: 73%;
+    height: 73vh;
+    margin-left: 0vw;
+    margin-top: 2vh;
+    border: 2px solid white; /* Contour noir */
+    border-radius: 1vw;
+    background-image: url('icons/video.jpg');
+    background-size:cover;
+}
+
+#subtitlesContainer {
+  position: relative;
+  width: 25.8%; /* Largeur du rectangle */
+  height: 73vh; /* Hauteur du rectangle */
+  float: right;
+  border: 2px solid white; /* Contour noir */
+  margin-top: 1vw;
+  text-align: center;
+  border-radius: 1vw;
+}
+
+#subtitlesContainer h2 {
+  margin: 0;
+  padding: 17px;
+  font-size: 21px;
+  border-bottom: 2px solid white; /* Ligne du contour noir en bas du titre */
+  color: white;
+  border-radius: 1vw;
+  font-family: 'Poppins', sans-serif;
+}
+
+#subtitlesContainer .subtitles {
+  padding: 11px;
+  font-size: 13px;
+  height: 64vh;
+  border-radius: 1vw;
+  color:white;
+}

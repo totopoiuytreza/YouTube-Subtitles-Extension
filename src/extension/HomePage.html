@@ -15,16 +15,18 @@
     
     <div class="search-bar">
         <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
-        <button id="searchButton" class="search-button">Rechercher</button>
+        <button id="searchButton" class="search-button" onclick="transcribingAll()">Rechercher</button>
     </div>
 
-    <div class="video-container">
-        <video id="myVideo" controls>
-            <source id="videoSource" type="video/mp4">
-            <track id="subtitlesTrack" kind="subtitles" src="/transcribe" srclang="fr" label="Français">
-        </video>
+    </div class="video-container">
+        <iframe id="videoSource" width="75%" height="500"></iframe>
     </div>
       
+    <div id="subtitlesContainer">
+            <!--    Boite où l'on affiche le texte à droite       -->
+            <h2>Transcription</h2>
+            <div class="subtitles"></div>
+    </div>
 </body>
 </html>
 
@@ -34,6 +36,7 @@
     var searchButton = document.getElementById('searchButton');
     var videoSource = document.getElementById('videoSource');
     var subtitlesTrack = document.getElementById('subtitlesTrack');
+    var videoId
 
     // Ajoutez un gestionnaire d'événement au bouton de recherche
     searchButton.addEventListener('click', function() {
@@ -41,7 +44,7 @@
             var videoUrl = searchInput.value;
             
            
-            var videoId = extractVideoId(videoUrl);
+            videoId = extractVideoId(videoUrl);
             
             // Mettez à jour l'URL de la source vidéo
             videoSource.src = "https://www.youtube.com/embed/" + videoId;
@@ -62,5 +65,29 @@
                 videoId = splitUrl[1];
             }
             return videoId;
+        }
+
+        //Fonction pour récupérer le texte et l'afficher au moment du click
+        function transcribingAll() {
+            fetch('http://127.0.0.1:5000/transcribeAll', {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    video_id: videoId,
+                    language: language_to_transcribe
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Afficher les données dans la balise subtitles
+                var subtitles = document.getElementById('subtitles');
+                subtitles.textContent = data;
+            })
+            .catch(error => {
+                console.error(error);
+            });
         }
 </script>
