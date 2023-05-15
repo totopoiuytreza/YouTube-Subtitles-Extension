@@ -19,10 +19,14 @@
         <button id="searchButton" class="search-button">Rechercher</button>
     </div>
  
-</div class="video-container">
-    <iframe id="videoSource" width="75%" height="500"></iframe>
-    <track id="subtitlesTrack" kind="subtitles" src="/transcribe" srclang="fr" label="Français">  
-</div> 
+
+
+    <div class="video-container">
+        <video id="myVideo" controls>
+            <source id="videoSource" type="video/mp4">
+            <track id="subtitlesTrack" kind="subtitles" src="/transcribe" srclang="fr" label="Français">
+        </video>
+    </div>
 
 </body>
 </html>
