@@ -31,6 +31,28 @@
             transcribeController = transcribing()
         }
     });
+
+    const transcribingAll = () => {
+        fetch('http://127.0.0.1:5000/transcribeAll', {
+            method: 'POST',
+            mode: 'cors',
+            signal: transcribeController.signal,
+            headers: {
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({
+                video_id: currentVideo,
+                language : language_to_transcribe
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
     
     const transcribing = () => {
         transcribeController = new AbortController();
@@ -59,8 +81,6 @@
         return transcribeController;
     }
 
-    let webVTT = new Blob([], { type: 'text/vtt' });
-    let subtitles = []
     const checkTranscription = () => {
         if (!videoTranscripted) {
             fetch('http://127.0.0.1:5000/check_transcription',  {
@@ -72,27 +92,6 @@
             })
             .then(response => response.text())
             .then(data => {
-                data.forEach( data => { 
-                // Convertir la chaîne de sous-titres en Blob
-                const blob = new Blob([data], { type: 'text/vtt' });
-
-                // Ajouter les sous-titres à l'objet de sous-titres WebVTT
-                webVTT = new Blob([webVTT, blob], { type: 'text/vtt' });
-                });
-                // Créer un objet FileWriter
-                window.requestFileSystem(window.TEMPORARY, 1024 * 1024, (fs) => {
-                    fs.root.getFile('sous-titres.vtt', { create: true }, (fileEntry) => {
-                    fileEntry.createWriter((fileWriter) => {
-                
-                        // Écrire le contenu du fichier
-                        fileWriter.write(webVTT);
-                
-                        // Afficher un message de confirmation
-                        console.log('Le fichier sous-titres.vtt a été enregistré avec succès');
-                
-                            }, (err) => console.error(err));
-                        }, (err) => console.error(err));
-                    }, (err) => console.error(err));
                 console.log(data);
             })
             .catch(error => {
@@ -141,3 +140,5 @@
       });
        
 })();
+
+export const transcribingAll = transcribingAll;

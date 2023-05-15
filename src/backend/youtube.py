@@ -2,7 +2,7 @@ from pytube import YouTube
 import re, os
 from pydub import AudioSegment
 
-@app.route('/get_video_id', methods=['POST'])
+"""@app.route('/get_video_id', methods=['POST'])
 def get_video_id():
     # Récupérer l'URL de la vidéo depuis la requête POST
     video_url = request.json['video_url']
@@ -12,7 +12,7 @@ def get_video_id():
     video_id = youtube.get_video_id()
     
     # Retourner l'ID de la vidéo en tant que réponse JSON
-    return jsonify({'video_id': video_id})
+    return jsonify({'video_id': video_id})"""
 
 class Youtube:
 
