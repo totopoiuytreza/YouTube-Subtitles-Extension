@@ -21,7 +21,8 @@ def transcribeAll():
     print("downloaded")
     transcription = []
     result = model.transcribe(os.path.join('src/data',f"audio.wav"), **options)
-    transcription.append(result)
+    transcription.append(yt.whisper_result_to_text(result))
+    print(transcription)
     
     generate_vtt_file(transcription)  # Generate the VTT file
     

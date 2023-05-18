@@ -18,18 +18,6 @@
         <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
         <button id="searchButton" class="search-button" onclick="transcribingAll()">Rechercher</button>
     </div>
-<<<<<<< HEAD
- 
-
-
-    <div class="video-container">
-        <video id="myVideo" controls>
-            <source id="videoSource" type="video/mp4">
-            <track id="subtitlesTrack" kind="subtitles" src="/transcribe" srclang="fr" label="Français">
-        </video>
-    </div>
-=======
->>>>>>> bfd01ad1127c375eb80366959517d0451fe48b60
 
     </div class="video-container">
         <iframe id="videoSource" width="75%" height="500"></iframe>
@@ -50,9 +38,45 @@
     var videoSource = document.getElementById('videoSource');
     var subtitlesTrack = document.getElementById('subtitlesTrack');
     var videoId
+    var language_to_transcribe = "fr";
+
+    // Fonction pour extraire l'ID de la vidéo à partir de l'URL YouTube
+    function extractVideoId(url) {
+            var videoId = "";
+            var splitUrl = url.split("v=");
+            if (splitUrl.length > 1) {
+                videoId = splitUrl[1];
+            }
+            return videoId;
+        }
+
+    //Fonction pour récupérer le texte et l'afficher au moment du click
+    function transcribingAll() {
+        fetch('http://127.0.0.1:5000/transcribeAll', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                video_id: videoId,
+                language: language_to_transcribe
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Afficher les données dans la balise subtitles
+            var subtitles = document.getElementById('subtitles');
+            subtitles.textContent = data;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
 
     // Ajoutez un gestionnaire d'événement au bouton de recherche
-    searchButton.addEventListener('click', function() {
+    searchButton.addEventListener('click', function(event) {
+            event.preventDefault();
             // Récupérez la valeur de recherche de l'utilisateur
             var videoUrl = searchInput.value;
             
@@ -65,42 +89,13 @@
             // Mettez à jour l'URL du sous-titre
             var vttUrl = "/subtitles.vtt";
             subtitlesTrack.src = vttUrl;
-
+            // Appel du transcribeAll
+            transcribingAll();
             // Rafraîchissez la vidéo pour prendre en compte les changements
             document.getElementById('myVideo').load();
+            
+            
         });
 
-        // Fonction pour extraire l'ID de la vidéo à partir de l'URL YouTube
-        function extractVideoId(url) {
-            var videoId = "";
-            var splitUrl = url.split("v=");
-            if (splitUrl.length > 1) {
-                videoId = splitUrl[1];
-            }
-            return videoId;
-        }
-
-        //Fonction pour récupérer le texte et l'afficher au moment du click
-        function transcribingAll() {
-            fetch('http://127.0.0.1:5000/transcribeAll', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    video_id: videoId,
-                    language: language_to_transcribe
-                })
-            })
-            .then(response => response.text())
-            .then(data => {
-                // Afficher les données dans la balise subtitles
-                var subtitles = document.getElementById('subtitles');
-                subtitles.textContent = data;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }
+        
 </script>

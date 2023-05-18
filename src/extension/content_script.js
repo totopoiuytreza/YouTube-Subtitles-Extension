@@ -140,5 +140,3 @@
       });
        
 })();
-
-export const transcribingAll = transcribingAll;
