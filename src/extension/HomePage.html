@@ -16,7 +16,7 @@
     
     <div class="search-bar">
         <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
-        <button id="searchButton" class="search-button" onclick="transcribingAll()">Rechercher</button>
+        <button id="searchButton" class="search-button">Rechercher</button>
     </div>
 
     </div class="video-container">
@@ -66,8 +66,31 @@
         .then(response => response.text())
         .then(data => {
             // Afficher les données dans la balise subtitles
+            console.log(JSON.parse(data).text);
+
+            // TO DO : Afficher le texte dans la balise subtitles
             var subtitles = document.getElementById('subtitles');
-            subtitles.textContent = data;
+            subtitles.textContent = "Kebab";
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }
+    function test() {
+        fetch('http://127.0.0.1:5000/test', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                video_id: videoId,
+                language: language_to_transcribe
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
         })
         .catch(error => {
             console.error(error);
@@ -85,14 +108,15 @@
             
             // Mettez à jour l'URL de la source vidéo
             videoSource.src = "https://www.youtube.com/embed/" + videoId;
-
-            // Mettez à jour l'URL du sous-titre
-            var vttUrl = "/subtitles.vtt";
-            subtitlesTrack.src = vttUrl;
+            
             // Appel du transcribeAll
             transcribingAll();
+            // Mettez à jour l'URL du sous-titre
+            //var vttUrl = "/subtitles.vtt";
+            //subtitlesTrack.src = vttUrl;
+            
             // Rafraîchissez la vidéo pour prendre en compte les changements
-            document.getElementById('myVideo').load();
+            //document.getElementById('myVideo').load();
             
             
         });

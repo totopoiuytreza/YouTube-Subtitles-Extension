@@ -11,22 +11,27 @@ model = load_model("small", device=devices)
 current_youtube = None
 transcription = []
 
+@app.route('/test', methods=['POST'])
+def test():
+    return jsonify({'text': 'test'})
+
 @app.route('/transcribeAll', methods=['POST'])
 def transcribeAll():
     global transcription
     options = {"fp16": False, "task": "translate", "language": request.json['language']}
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
     print("downloading...")
-    yt = Youtube(youtube_url)
+    #yt = Youtube(youtube_url)
     print("downloaded")
     transcription = []
     result = model.transcribe(os.path.join('src/data',f"audio.wav"), **options)
-    transcription.append(yt.whisper_result_to_text(result))
-    print(transcription)
+    #transcription.append(yt.whisper_result_to_text(result))
+    #print(transcription)
     
-    generate_vtt_file(transcription)  # Generate the VTT file
+    #generate_vtt_file(transcription)  # Generate the VTT file
+    print(result['text'])
     
-    return jsonify({'text': transcription})
+    return jsonify({'text': result['text']})
     
     
 
