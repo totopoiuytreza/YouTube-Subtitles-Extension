@@ -16,7 +16,8 @@
     
     <div class="search-bar">
         <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
-        <button id="searchButton" class="search-button">Rechercher</button>
+        <button id="transcribeButton" onclick="LoadingVideo()">Retranscrire</button>
+        <button id="translateButton" class="translate-button" onclick="LoadingVideo()">Traduire en anglais</button>
     </div>
 
     </div class="video-container">
@@ -34,11 +35,24 @@
 <script>
     // Récupérez les éléments HTML nécessaires
     var searchInput = document.getElementById('searchInput');
-    var searchButton = document.getElementById('searchButton');
+    var translateButton = document.getElementById('translateButton');
     var videoSource = document.getElementById('videoSource');
     var subtitlesTrack = document.getElementById('subtitlesTrack');
     var videoId
-    var language_to_transcribe = "fr";
+    var language_to_transcribe = "";
+    var transcribeButton = document.getElementById('transcribeButton');
+
+
+    // Ajouter un gestionnaire d'événement pour le survol du bouton
+    transcribeButton.addEventListener('click', function() {
+            language_to_transcribe = 'transcribe';
+    });
+ 
+    // Ajouter un gestionnaire d'événement pour la sortie du curseur du bouton
+    translateButton.addEventListener('click', function() {
+            language_to_transcribe = 'translate';
+    });
+
 
     // Fonction pour extraire l'ID de la vidéo à partir de l'URL YouTube
     function extractVideoId(url) {
@@ -105,7 +119,7 @@
     }
 
     // Ajoutez un gestionnaire d'événement au bouton de recherche
-    searchButton.addEventListener('click', function(event) {
+    function LoadingVideo() {
             event.preventDefault();
             // Récupérez la valeur de recherche de l'utilisateur
             var videoUrl = searchInput.value;
@@ -126,7 +140,7 @@
             //document.getElementById('myVideo').load();
             
             
-        });
+        };
 
         
 </script>
