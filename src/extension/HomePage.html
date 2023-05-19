@@ -91,7 +91,11 @@
         })
         .then(response => response.text())
         .then(data => {
-                console.log(data);
+            var subtitlesDiv = document.querySelector('.subtitles');
+
+            // Mettre à jour le contenu de l'élément avec les sous-titres
+            subtitlesDiv.textContent = data;
+        
         })
         .catch(error => {
             console.error(error);
