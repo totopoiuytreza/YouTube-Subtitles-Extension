@@ -73,7 +73,7 @@
             // Mettre à jour le contenu de l'élément avec les sous-titres
             var tempSubtitles = JSON.parse(data).text;
             var replacedStr = tempSubtitles.replace(/\n/g, "<br>");
-            subtitlesDiv.textContent = replacedStr;
+            subtitlesDiv.innerHTML = replacedStr;
         })
         .catch(error => {
             console.error(error);
