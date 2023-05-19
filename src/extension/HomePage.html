@@ -67,10 +67,11 @@
         .then(data => {
             // Afficher les données dans la balise subtitles
             console.log(JSON.parse(data).text);
+             // Sélectionner l'élément <div> des sous-titres
+            var subtitlesDiv = document.querySelector('.subtitles');
 
-            // TO DO : Afficher le texte dans la balise subtitles
-            var subtitles = document.getElementById('subtitles');
-            subtitles.textContent = "Kebab";
+            // Mettre à jour le contenu de l'élément avec les sous-titres
+            subtitlesDiv.textContent = JSON.parse(data).text;
         })
         .catch(error => {
             console.error(error);
@@ -90,7 +91,7 @@
         })
         .then(response => response.text())
         .then(data => {
-            console.log(data);
+                console.log(data);
         })
         .catch(error => {
             console.error(error);
