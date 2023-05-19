@@ -21,15 +21,14 @@ def transcribeAll():
     options = {"fp16": False, "task": "translate", "language": request.json['language']}
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
     print("downloading...")
-    #yt = Youtube(youtube_url)
+    yt = Youtube(youtube_url, False)
     print("downloaded")
     transcription = []
     result = model.transcribe(os.path.join('src/data',f"audio.wav"), **options)
-    #transcription.append(yt.whisper_result_to_text(result))
-    #print(transcription)
+    transcription.append(yt.whisper_result_to_text(result))
+    print(transcription)
     
     #generate_vtt_file(transcription)  # Generate the VTT file
-    print(result['text'])
     
     return jsonify({'text': result['text']})
     
@@ -42,7 +41,7 @@ def transcribe():
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
     print(youtube_url)
     print("downloading...")
-    yt = Youtube(youtube_url)
+    yt = Youtube(youtube_url, True)
     print("downloaded")
     
     transcription = []
