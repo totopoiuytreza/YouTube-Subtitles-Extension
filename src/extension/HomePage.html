@@ -39,19 +39,19 @@
     var videoSource = document.getElementById('videoSource');
     var subtitlesTrack = document.getElementById('subtitlesTrack');
     var videoId
-    var language_to_transcribe = "";
+    var model = "";
     var transcribeButton = document.getElementById('transcribeButton');
 
 
     // Ajouter un gestionnaire d'événement pour le survol du bouton
     transcribeButton.addEventListener('click', function() {
-            language_to_transcribe = "transcribe";
+            model = "transcribe";
             LoadingVideo();
     });
  
     // Ajouter un gestionnaire d'événement pour la sortie du curseur du bouton
     translateButton.addEventListener('click', function() {
-            language_to_transcribe = "translate";
+            model = "translate";
             LoadingVideo();
     });
 
@@ -76,7 +76,7 @@
             },
             body: JSON.stringify({
                 video_id: videoId,
-                language: language_to_transcribe
+                model_method: model
             })
         })
         .then(response => response.text())

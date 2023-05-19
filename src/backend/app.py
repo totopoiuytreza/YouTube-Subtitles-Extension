@@ -18,7 +18,7 @@ def test():
 @app.route('/transcribeAll', methods=['POST'])
 def transcribeAll():
     global transcription
-    options = {"fp16": False, "task": "translate", "language": request.json['language']}
+    options = {"fp16": False, "task": request.json['model_method']}
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
     print("downloading...")
     yt = Youtube(youtube_url, False)
