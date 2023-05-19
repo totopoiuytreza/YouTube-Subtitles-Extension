@@ -16,8 +16,8 @@
     
     <div class="search-bar">
         <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
-        <button id="transcribeButton" onclick="LoadingVideo()">Retranscrire</button>
-        <button id="translateButton" class="translate-button" onclick="LoadingVideo()">Traduire en anglais</button>
+        <button id="transcribeButton">Retranscrire</button>
+        <button id="translateButton" class="translate-button">Traduire en anglais</button>
     </div>
 
     </div class="video-container">
@@ -45,12 +45,14 @@
 
     // Ajouter un gestionnaire d'événement pour le survol du bouton
     transcribeButton.addEventListener('click', function() {
-            language_to_transcribe = 'transcribe';
+            language_to_transcribe = "transcribe";
+            LoadingVideo();
     });
  
     // Ajouter un gestionnaire d'événement pour la sortie du curseur du bouton
     translateButton.addEventListener('click', function() {
-            language_to_transcribe = 'translate';
+            language_to_transcribe = "translate";
+            LoadingVideo();
     });
 
 
