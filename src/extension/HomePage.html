@@ -132,6 +132,11 @@
             // Mettez à jour l'URL de la source vidéo
             videoSource.src = "https://www.youtube.com/embed/" + videoId;
             
+            var subtitlesDiv = document.querySelector('.subtitles');
+
+            var tempSubtitles = "Chargement...";
+            subtitlesDiv.innerHTML = tempSubtitles;
+
             
             // Appel du transcribeAll
             transcribingAll();
