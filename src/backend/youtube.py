@@ -16,13 +16,16 @@ def get_video_id():
 
 class Youtube:
 
-    def __init__(self, url):
+    def __init__(self, url, is_segmented):
         self.url = url
         self.video_id = url.split("=")[1]
         self.number_of_segment = 0
         if self.check_valid_url(self.url):
             self.yt = YouTube(self.url)
-            self.get_audio_and_segments(30)
+            if(is_segmented):
+                self.get_audio_and_segments(30)
+            else:
+                self.get_audio_from_video()
             self.start_time = 0
         else:
             raise Exception("Invalid URL")
