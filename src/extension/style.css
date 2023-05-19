@@ -121,6 +121,8 @@ header {
   color:white;
   overflow: auto; 
   word-wrap: break-word; 
+  font-family: 'Poppins', sans-serif;
+  font-size: 1vw;
 }
 
 #subtitlesContainer .subtitles::-webkit-scrollbar {
