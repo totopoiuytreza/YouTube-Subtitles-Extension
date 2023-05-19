@@ -16,8 +16,8 @@
     
     <div class="search-bar">
         <input type="text" id="searchInput" class="search-input" placeholder="URL de la vidéo Youtube...">
-        <button id="transcribeButton">Retranscrire</button>
-        <button id="translateButton" class="translate-button">Traduire en anglais</button>
+        <button id="transcribeButton" >Retranscrire</button>
+        <button id="translateButton" class="translate-button" >Traduire en anglais</button>
     </div>
 
     </div class="video-container">
@@ -39,19 +39,19 @@
     var videoSource = document.getElementById('videoSource');
     var subtitlesTrack = document.getElementById('subtitlesTrack');
     var videoId
-    var model = "";
+    var language_to_transcribe = "";
     var transcribeButton = document.getElementById('transcribeButton');
 
 
     // Ajouter un gestionnaire d'événement pour le survol du bouton
     transcribeButton.addEventListener('click', function() {
-            model = "transcribe";
+            language_to_transcribe = "transcribe";
             LoadingVideo();
     });
  
     // Ajouter un gestionnaire d'événement pour la sortie du curseur du bouton
     translateButton.addEventListener('click', function() {
-            model = "translate";
+            language_to_transcribe = "translate";
             LoadingVideo();
     });
 
@@ -76,7 +76,7 @@
             },
             body: JSON.stringify({
                 video_id: videoId,
-                model_method: model
+                language: language_to_transcribe
             })
         })
         .then(response => response.text())
@@ -131,12 +131,6 @@
             
             // Mettez à jour l'URL de la source vidéo
             videoSource.src = "https://www.youtube.com/embed/" + videoId;
-
-            var subtitlesDiv = document.querySelector('.subtitles');
-
-            // Mettre à jour le contenu de l'élément avec les sous-titres
-            var tempSubtitles = "Chargement...";
-            subtitlesDiv.innerHTML = tempSubtitles;
             
             // Appel du transcribeAll
             transcribingAll();
