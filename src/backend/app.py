@@ -30,7 +30,7 @@ def transcribeAll():
     
     #generate_vtt_file(transcription)  # Generate the VTT file
     
-    return jsonify({'text': transcription})
+    return jsonify({'text': transcription[0]})
     
     
 
