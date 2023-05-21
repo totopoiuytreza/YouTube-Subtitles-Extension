@@ -9,7 +9,7 @@ CORS(app)
 devices = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 model = load_model("small", device=devices)
 current_youtube = None
-transcription = []
+transcription = ""
 
 @app.route('/test', methods=['POST'])
 def test():
@@ -23,36 +23,38 @@ def transcribeAll():
     print("downloading...")
     yt = Youtube(youtube_url, False)
     print("downloaded")
-    transcription = []
+    transcription = ""
     result = model.transcribe(os.path.join('src/data',f"audio.wav"), **options)
-    transcription.append(yt.whisper_result_to_text(result))
+    transcription += (yt.whisper_result_to_text(result))
     print(transcription)
     
     #generate_vtt_file(transcription)  # Generate the VTT file
     
-    return jsonify({'text': transcription[0]})
+    return jsonify({'text': transcription})
     
     
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
     global transcription
-    options = {"fp16": False, "task": "translate", "language": request.json['language']}
+    options = {"fp16": False, "task": request.json['model_method']}
     youtube_url = 'https://www.youtube.com/watch?v=' + request.json['video_id']
     print(youtube_url)
     print("downloading...")
     yt = Youtube(youtube_url, True)
+    print("test")
+    yt.separate_video_into_segments(30)
     print("downloaded")
     
-    transcription = []
+    transcription = ""
     number_of_segment = yt.get_number_of_segment()
     for i in range(number_of_segment):
         result = model.transcribe(os.path.join('src/data',f"segment{i+1}.wav"), **options)
         segment_text = yt.whisper_result_to_text(result)
-        transcription.append(segment_text)
+        transcription += segment_text
         print(segment_text)
 
-    generate_vtt_file(transcription)  # Generate the VTT file
+    #generate_vtt_file(transcription)  # Generate the VTT file
 
     return jsonify({'text': transcription})
 

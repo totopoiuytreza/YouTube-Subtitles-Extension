@@ -40,17 +40,26 @@
     var subtitlesTrack = document.getElementById('subtitlesTrack');
     var videoId
     var model = "";
+    var videoTranscripted = false;
     var transcribeButton = document.getElementById('transcribeButton');
+    var transcribeController = null;
 
 
     // Ajouter un gestionnaire d'événement pour le survol du bouton
-    transcribeButton.addEventListener('click', function() {
+    transcribeButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (transcribeController != null){
+                clearInterval(currentInterval);
+                transcribeController.abort();
+            }
+            videoTranscripted = false;
             model = "transcribe";
             LoadingVideo();
     });
  
     // Ajouter un gestionnaire d'événement pour la sortie du curseur du bouton
-    translateButton.addEventListener('click', function() {
+    translateButton.addEventListener('click', function(event) {
+            event.preventDefault();
             model = "translate";
             LoadingVideo();
     });
@@ -65,6 +74,62 @@
             }
             return videoId;
         }
+
+    function transcribing(){
+        transcribeController = new AbortController();
+        fetch('http://127.0.0.1:5000/transcribe', {
+            method: 'POST',
+            mode: 'cors',
+            signal: transcribeController.signal,
+            headers: {
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({
+                video_id: videoId,
+                model_method : model
+
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            videoTranscripted = true;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+        return transcribeController;
+    }
+    function checkTranscription(){
+        if (!videoTranscripted) {
+            fetch('http://127.0.0.1:5000/check_transcription',  {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Afficher les données dans la balise subtitles
+                console.log(JSON.parse(data).text);
+                // Sélectionner l'élément <div> des sous-titres
+                var subtitlesDiv = document.querySelector('.subtitles');
+
+                // Mettre à jour le contenu de l'élément avec les sous-titres
+                var tempSubtitles = JSON.parse(data).text;
+                var replacedStr = tempSubtitles.replace(/\n/g, "<br>");
+                subtitlesDiv.innerHTML = replacedStr;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+        else {
+            clearInterval(currentInterval);
+            videoTranscripted = false;
+        }
+    }
 
     //Fonction pour récupérer le texte et l'afficher au moment du click
     function transcribingAll() {
@@ -95,34 +160,10 @@
             console.error(error);
         });
     }
-    function test() {
-        fetch('http://127.0.0.1:5000/test', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                video_id: videoId,
-                language: language_to_transcribe
-            })
-        })
-        .then(response => response.text())
-        .then(data => {
-            var subtitlesDiv = document.querySelector('.subtitles');
 
-            // Mettre à jour le contenu de l'élément avec les sous-titres
-            subtitlesDiv.textContent = data;
-        
-        })
-        .catch(error => {
-            console.error(error);
-        });
-    }
 
     // Ajoutez un gestionnaire d'événement au bouton de recherche
     function LoadingVideo() {
-            event.preventDefault();
             // Récupérez la valeur de recherche de l'utilisateur
             var videoUrl = searchInput.value;
             
@@ -139,7 +180,11 @@
             subtitlesDiv.innerHTML = tempSubtitles;
             
             // Appel du transcribeAll
-            transcribingAll();
+            currentInterval = setInterval(checkTranscription, 5000);
+            transcribeController = transcribing();
+
+
+            //transcribingAll();
             // Mettez à jour l'URL du sous-titre
             //var vttUrl = "/subtitles.vtt";
             //subtitlesTrack.src = vttUrl;

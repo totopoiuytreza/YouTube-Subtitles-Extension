@@ -4,14 +4,18 @@ Install Whisper :
 
 pip install git+https://github.com/openai/whisper.git
 
-Install FFMPEG : - install Chocolatey : On cmd administration permission :
-@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin" - install ffmpeg : choco install ffmpeg
+Install FFMPEG :
+
+- install Chocolatey : On cmd administration permission :
+  @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+- install ffmpeg : choco install ffmpeg
 
 Verify if packages are installed (Test on cmd or powershell): - python -V - ffmpeg - whisper
 
-Some must have packages: 
-- pip install flask 
-- pip install flask_cors 
+Some must have packages:
+
+- pip install flask
+- pip install flask_cors
 - pip install pytube
 - pip install pydub
 
